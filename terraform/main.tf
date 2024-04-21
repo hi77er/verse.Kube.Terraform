@@ -4,11 +4,11 @@ provider "aws" {
     secret_key = var.aws_secret_access_key
 }
 
-module "myapp-vpc" {
+module "verse-vpc" {
     source = "terraform-aws-modules/vpc/aws"
     version = "5.1.1"
 
-    name = "myapp-vpc"
+    name = "verse-vpc"
     cidr = var.vpc_cidr_block
     private_subnets = var.private_subnet_cidr_blocks
     public_subnets = var.public_subnet_cidr_blocks
@@ -19,16 +19,16 @@ module "myapp-vpc" {
     enable_dns_hostnames = true
 
     tags = {
-        "kubernetes.io/cluster/myapp-eks-cluster-dev" = "shared"
+        "kubernetes.io/cluster/verse-eks-cluster-dev" = "shared"
     }
 
     public_subnet_tags = {
-        "kubernetes.io/cluster/myapp-eks-cluster-dev" = "shared"
+        "kubernetes.io/cluster/verse-eks-cluster-dev" = "shared"
         "kubernetes.io/role/elb" = 1 
     }
 
     private_subnet_tags = {
-        "kubernetes.io/cluster/myapp-eks-cluster-dev" = "shared"
+        "kubernetes.io/cluster/verse-eks-cluster-dev" = "shared"
         "kubernetes.io/role/internal-elb" = 1 
     }
 }
@@ -40,8 +40,8 @@ module "eks" {
   cluster_name = var.k8s_cluster_name
   cluster_version = var.k8s_version
 
-  subnet_ids = module.myapp-vpc.private_subnets
-  vpc_id = module.myapp-vpc.vpc_id
+  subnet_ids = module.verse-vpc.private_subnets
+  vpc_id = module.verse-vpc.vpc_id
 
   # to access cluster externally with kubectl
   cluster_endpoint_public_access = true
@@ -60,7 +60,7 @@ module "eks" {
 
   tags = {
     environment = "development"
-    application = "myapp"
+    application = "verse"
   }
 
   eks_managed_node_groups = {
