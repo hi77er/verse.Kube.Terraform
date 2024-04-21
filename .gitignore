@@ -1,7 +1,7 @@
 .vs
 
 # Local .terraform directories
-**/.terraform/*
+.terraform/*
 
 # .tfstate files
 *.tfstate
@@ -12,7 +12,7 @@
 # control as they are data points which are potentially sensitive and subject 
 # to change depending on the environment.
 #
-terraform/*.tfvars
+*.tfvars
 
 # Ignore CLI configuration files
 .terraformrc
